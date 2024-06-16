@@ -107,7 +107,50 @@ sorting_algo_combobox.set("Bubble Sort")
 
 sorting_algo_combobox.place(x=10,y=265)
 
-canvas = Canvas(root_tk,width=560, height=440,bg="#e6f0f7")
+speed_lb = customtkinter.CTkLabel(master=root_tk,
+                               text="Speed",
+                               width=50,
+                               height=25,
+                               corner_radius=8,
+                               font=("TypoGraphica",12))
+speed_lb.place(x=5, y=300)
+
+def slider_event(value):
+    print(int(value*100))
+
+speed_slider = customtkinter.CTkSlider(master=root_tk,
+                                 width=210,
+                                 height=16,
+                                 border_width=5.5,
+                                 command=slider_event)
+speed_slider.place(x=5,y=325)
+
+
+def generat_button_event():
+    print("button pressed")
+
+generat_button = customtkinter.CTkButton(master=root_tk,
+                                 text="Generat",
+                                 command=generat_button_event,
+                                 width=95,
+                                 height=28,
+                                 border_width=0,
+                                 corner_radius=8)
+generat_button.place(x=10,y=350)
+
+def start_button_event():
+    print("button pressed")
+
+start_button = customtkinter.CTkButton(master=root_tk,
+                                 text="Start",
+                                 command=start_button_event,
+                                 width=95,
+                                 height=28,
+                                 border_width=0,
+                                 corner_radius=8)
+start_button.place(x=115,y=350)
+
+canvas = Canvas(root_tk,width=560, height=440,bg="gray")#e6f0f7
 canvas.place(x=240,y=0)
 
 

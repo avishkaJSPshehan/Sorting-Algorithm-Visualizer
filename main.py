@@ -11,6 +11,86 @@ root_tk.configure(background='#7faceb')
 
 
 
+def create_rounded_rectangle(canvas, x1, y1, x2, y2, radius=25, **kwargs):
+    points = [
+        x1 + radius, y1,
+        x1 + radius, y1,
+        x2 - radius, y1,
+        x2 - radius, y1,
+        x2, y1,
+        x2, y1 + radius,
+        x2, y1 + radius,
+        x2, y2 - radius,
+        x2, y2 - radius,
+        x2, y2,
+        x2 - radius, y2,
+        x2 - radius, y2,
+        x1 + radius, y2,
+        x1 + radius, y2,
+        x1, y2,
+        x1, y2 - radius,
+        x1, y2 - radius,
+        x1, y1 + radius,
+        x1, y1 + radius,
+        x1, y1,
+    ]
+    return canvas.create_polygon(points, **kwargs, smooth=True)
+
+# Example usage inside drawData function
+def drawData(data):
+    canvas.delete("all")
+    canvas_height = 440
+    canvas_width = 560
+    x_width = canvas_width / (len(data) + 1)
+    offset = 10
+    spacing_bet_rect = 10
+    normalised_data = [i / max(data) for i in data]
+
+    for i, height in enumerate(normalised_data):
+        x0 = i * x_width + offset + spacing_bet_rect
+        y0 = canvas_height - height * 400
+        x1 = (i + 1) * x_width
+        y1 = canvas_width
+
+        create_rounded_rectangle(canvas, x0, y0, x1, y1, radius=10, fill="#76c7c0")
+        canvas.create_text(x0 + 2, y0, anchor=SW, text=str(data[i]), font=("Helvetica", 10, "bold"), fill="orange")
+
+
+def generat_button_event():
+    print("button pressed")
+    
+    try:
+        minivalue = int(min_size_entry.get())
+    except:
+        minivalue = 1
+    
+    try:
+        maxivalue = int(max_size_entry.get())
+    except:
+        maxivalue = 15
+
+    try:
+        sizeeivalue = int(input_size_entry.get())
+    except:
+        sizeeivalue = 10
+
+
+    if minivalue < 0:
+        minivalue = 0
+    if maxivalue > 100:
+        maxivalue = 100
+
+    if minivalue > maxivalue:
+        minivalue,maxivalue = maxivalue,minivalue
+
+    data = []
+    for _ in range(sizeeivalue):
+        data.append(random.randrange(minivalue,maxivalue+1))
+
+    drawData(data)
+
+
+
 main_heading = customtkinter.CTkLabel(master=root_tk,
                                text="S O R T I N G\nV I S U A L I Z E R",
                                width=50,
@@ -116,7 +196,7 @@ speed_lb = customtkinter.CTkLabel(master=root_tk,
 speed_lb.place(x=5, y=300)
 
 def slider_event(value):
-    print(int(value*100))
+    return int(value*100)
 
 speed_slider = customtkinter.CTkSlider(master=root_tk,
                                  width=210,
@@ -126,8 +206,7 @@ speed_slider = customtkinter.CTkSlider(master=root_tk,
 speed_slider.place(x=5,y=325)
 
 
-def generat_button_event():
-    print("button pressed")
+
 
 generat_button = customtkinter.CTkButton(master=root_tk,
                                  text="Generat",
@@ -150,7 +229,7 @@ start_button = customtkinter.CTkButton(master=root_tk,
                                  corner_radius=8)
 start_button.place(x=115,y=350)
 
-canvas = Canvas(root_tk,width=560, height=440,bg="gray")#e6f0f7
+canvas = Canvas(root_tk,width=560, height=440,bg="#e6f0f7")
 canvas.place(x=240,y=0)
 
 

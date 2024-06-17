@@ -9,7 +9,7 @@ root_tk.geometry("800x440")
 root_tk.title("Sorting Algorithm Visualizer")
 root_tk.configure(background='#7faceb')
 
-
+#bar bordder redious make
 
 def create_rounded_rectangle(canvas, x1, y1, x2, y2, radius=25, **kwargs):
     points = [
@@ -218,7 +218,7 @@ generat_button = customtkinter.CTkButton(master=root_tk,
 generat_button.place(x=10,y=350)
 
 def start_button_event():
-    print("button pressed")
+    pass
 
 start_button = customtkinter.CTkButton(master=root_tk,
                                  text="Start",

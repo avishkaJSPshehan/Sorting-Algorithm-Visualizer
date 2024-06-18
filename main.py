@@ -3,13 +3,18 @@ from tkinter import ttk
 from tkinter import *
 import random
 import customtkinter  # <- import the CustomTkinter module
+from bubbleSort import bubble_sort
+
 
 root_tk = tkinter.Tk()  # create the Tk window like you normally do
 root_tk.geometry("800x440")
 root_tk.title("Sorting Algorithm Visualizer")
 root_tk.configure(background='#7faceb')
 
-#bar bordder redious make
+data = []
+speed = 0
+
+
 
 def create_rounded_rectangle(canvas, x1, y1, x2, y2, radius=25, **kwargs):
     points = [
@@ -37,7 +42,7 @@ def create_rounded_rectangle(canvas, x1, y1, x2, y2, radius=25, **kwargs):
     return canvas.create_polygon(points, **kwargs, smooth=True)
 
 # Example usage inside drawData function
-def drawData(data):
+def drawData(data,colorArray):
     canvas.delete("all")
     canvas_height = 440
     canvas_width = 560
@@ -52,12 +57,14 @@ def drawData(data):
         x1 = (i + 1) * x_width
         y1 = canvas_width
 
-        create_rounded_rectangle(canvas, x0, y0, x1, y1, radius=10, fill="#76c7c0")
+        create_rounded_rectangle(canvas, x0, y0, x1, y1, radius=10, fill=colorArray[i])#76c7c0
         canvas.create_text(x0 + 2, y0, anchor=SW, text=str(data[i]), font=("Helvetica", 10, "bold"), fill="orange")
 
+    root_tk.update_idletasks()
 
 def generat_button_event():
-    print("button pressed")
+    global data
+    print("Generate button pressed")
     
     try:
         minivalue = int(min_size_entry.get())
@@ -87,9 +94,13 @@ def generat_button_event():
     for _ in range(sizeeivalue):
         data.append(random.randrange(minivalue,maxivalue+1))
 
-    drawData(data)
+    drawData(data,['#76c7c0' for x in range(len(data))])
 
 
+def start_button_event():
+    global data
+    print("Alsorithm Starting...")
+    bubble_sort(data,drawData,speed)
 
 main_heading = customtkinter.CTkLabel(master=root_tk,
                                text="S O R T I N G\nV I S U A L I Z E R",
@@ -196,7 +207,8 @@ speed_lb = customtkinter.CTkLabel(master=root_tk,
 speed_lb.place(x=5, y=300)
 
 def slider_event(value):
-    return int(value*100)
+    global speed
+    speed =  float(value*1)
 
 speed_slider = customtkinter.CTkSlider(master=root_tk,
                                  width=210,
@@ -217,8 +229,7 @@ generat_button = customtkinter.CTkButton(master=root_tk,
                                  corner_radius=8)
 generat_button.place(x=10,y=350)
 
-def start_button_event():
-    pass
+
 
 start_button = customtkinter.CTkButton(master=root_tk,
                                  text="Start",

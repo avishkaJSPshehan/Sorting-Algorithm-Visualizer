@@ -4,6 +4,7 @@ from tkinter import *
 import random
 import customtkinter  # <- import the CustomTkinter module
 from bubbleSort import bubble_sort
+from quickSort import quick_sort
 
 
 root_tk = tkinter.Tk()  # create the Tk window like you normally do
@@ -12,6 +13,7 @@ root_tk.title("Sorting Algorithm Visualizer")
 root_tk.configure(background='#7faceb')
 
 data = []
+algo_select = ""
 speed = 0
 
 
@@ -99,8 +101,17 @@ def generat_button_event():
 
 def start_button_event():
     global data
+    global algo_select
     print("Alsorithm Starting...")
-    bubble_sort(data,drawData,speed)
+
+    if not data:
+        return
+    
+    if algo_select == "Bubble Sort":
+        bubble_sort(data,drawData,speed)
+    elif algo_select == "Quick Sort":
+        quick_sort(data,0,len(data)-1,drawData,speed)
+        drawData(data, ['green' for x in range(len(data))])
 
 main_heading = customtkinter.CTkLabel(master=root_tk,
                                text="S O R T I N G\nV I S U A L I Z E R",
@@ -190,6 +201,10 @@ sorting_algo_lb = customtkinter.CTkLabel(master=root_tk,
 sorting_algo_lb.place(x=5, y=240)
 
 def combobox_callback(choice):
+
+    global algo_select
+
+    algo_select = choice
     print("combobox dropdown clicked:", choice)
 
 sorting_algo_combobox = customtkinter.CTkComboBox(root_tk, values=["Bubble Sort", "Insertion Sort","Quick Sort","Marge Sort"],width=200,height=25,

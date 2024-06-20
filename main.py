@@ -5,6 +5,7 @@ import random
 import customtkinter  # <- import the CustomTkinter module
 from bubbleSort import bubble_sort
 from quickSort import quick_sort
+from mergeSort import merge_sort
 
 
 root_tk = tkinter.Tk()  # create the Tk window like you normally do
@@ -13,7 +14,7 @@ root_tk.title("Sorting Algorithm Visualizer")
 root_tk.configure(background='#7faceb')
 
 data = []
-algo_select = ""
+algo_select = "Bubble Sort"
 speed = 0
 
 
@@ -60,7 +61,7 @@ def drawData(data,colorArray):
         y1 = canvas_width
 
         create_rounded_rectangle(canvas, x0, y0, x1, y1, radius=10, fill=colorArray[i])#76c7c0
-        canvas.create_text(x0 + 2, y0, anchor=SW, text=str(data[i]), font=("Helvetica", 10, "bold"), fill="orange")
+        canvas.create_text(x0 + 2, y0, anchor=SW, text=str(data[i]), font=("Helvetica", 10, "bold"), fill="#7faceb")
 
     root_tk.update_idletasks()
 
@@ -111,6 +112,10 @@ def start_button_event():
         bubble_sort(data,drawData,speed)
     elif algo_select == "Quick Sort":
         quick_sort(data,0,len(data)-1,drawData,speed)
+        drawData(data, ['green' for x in range(len(data))])
+
+    elif algo_select == "Merge Sort":
+        merge_sort(data,drawData,speed)
         drawData(data, ['green' for x in range(len(data))])
 
 main_heading = customtkinter.CTkLabel(master=root_tk,
@@ -207,7 +212,7 @@ def combobox_callback(choice):
     algo_select = choice
     print("combobox dropdown clicked:", choice)
 
-sorting_algo_combobox = customtkinter.CTkComboBox(root_tk, values=["Bubble Sort", "Insertion Sort","Quick Sort","Marge Sort"],width=200,height=25,
+sorting_algo_combobox = customtkinter.CTkComboBox(root_tk, values=["Bubble Sort", "Quick Sort","Merge Sort"],width=200,height=25,
                                      command=combobox_callback)
 sorting_algo_combobox.set("Bubble Sort")
 
